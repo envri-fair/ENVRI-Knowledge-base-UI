@@ -80,20 +80,15 @@
 		</div>
 		</br>
 </div>
-			
 
 </div>
-
-
-
 
 </body></html>
 
 
 <script> 
 	$(document).ready(function() {
-		var url = "https://envrifair1.test.fedcloud.eu/sparql";
-		
+	
 		var query = [
 			"prefix envri: <http://envri.eu/ns/>",
 			"prefix dcterms: <http://purl.org/dc/terms/>",
@@ -113,16 +108,11 @@
 			"}"
 		].join(" ");
 		
+		data=fetchData(query);
+		
 		// var principleLinks=[];
 		var demonstrators={};
 		
-		var queryUrl = url+"?query="+ encodeURIComponent(query) +"&format=json";
-				$.ajax({
-				url: queryUrl,
-				type: 'GET',
-		async: false,
-		
-		success: function(data) {
 			var tabledata = data["results"].bindings;	
 			
 			for(i=0; i<tabledata.length; i++) {
@@ -136,11 +126,7 @@
 				demonstrator["creator"] = temp["creator"].value;
 				demonstrators[temp["principle_label"].value] = demonstrator;
 			}
-		},
-		error: function(e) {
-		   //alert("fail"+e.message);
-		}}); 
-
+			
 		principleI2(demonstrators["I2"]);
 		principleR12(demonstrators["R1.2"]);
 	}); 
@@ -148,7 +134,7 @@
 	
 <script>
 	function principleI2(demonstrator) {
-		var url = "https://envrifair1.test.fedcloud.eu/sparql";
+	
 		var query = [
 			"prefix ns: <http://envri.eu/ns/>",
 			"prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>",
@@ -164,73 +150,13 @@
 			"FILTER (?value = ns:planned || ?value = 'false'^^xsd:bool) }",
 		].join(" ");
 		
-		var queryUrl = url+"?query="+ encodeURIComponent(query) +"&format=json";
-			$.ajax({
-			url: queryUrl,
-			type: 'GET',
-			async: false,
-	
-		success: function(data) {
-			var str = '';
-			str += '<p>';
-			str += '<div style="width: 100%; overflow: hidden;">';
-			str += '<div style="width: 800px; float: left;">';
-	 		str += '<h3><a href='+demonstrator["fair_principle"]+' target="_blank">'+demonstrator["principle_label"]+'</a>: '+demonstrator["principle_definition"]+'</h3>';
-			str += '</div>';
-			str += '<div style="padding-top: 10px; text-align: right;">'
-			str += '<a href='+demonstrator["demonstrator_url"]+' target="_blank" class="button">'+"Demonstrator"+'</a>'
-			str += '</div>';
-			str += '</div>';
-			str += '</p>';
-
-			str += '<table class="table table-hover dataTable no-footer" id="list-demonstrators" role="grid" aria-describedby="list-of-authors_info" style="width: 1110px;">';
-			str+='<thead><tr>';
-			str += '<th> Infrastructure </th>';
-			str += '<th> Repositories </th>';
-			
-			str += '</tr></thead>';
+		data=fetchData(query);
+		displayPrincipleData(data, demonstrator);
 		
-			var tabledata = data["results"].bindings;
-			
-			var infList = [];
-			var repoList = [];
-			var count=0;
-			for(i=0; i<tabledata.length; i++) {
-				var temp = tabledata[i];
-				
-				if(infList.indexOf(temp["infrastructure"].value)<0) {
-					infList[count] = temp["infrastructure"].value;
-					repoList[count] = temp["repository"].value;
-					count++;
-				}
-				else {
-					repoList[infList.indexOf(temp["infrastructure"].value)] += "; "+temp["repository"].value;
-				}
-			}
-			
-			str += '<tbody>';
-			for(i=0; i<infList.length; i++) {
-				str += '<tr>';
-				str += '<td>'+infList[i]+'</td>';
-				str += '<td>'+repoList[i]+'</td>';
-				str += '</tr>';
-			}
-		
-			str += '</tbody></table>';
-			
-			
-		    	$('#RIgaps').append(str);
-				
-			},
-			error: function(e)
-			{
-			   alert("fail"+e.message);
-			}
-		});
 	}
 
 	function principleR12(demonstrator) {
-		var url = "https://envrifair1.test.fedcloud.eu/sparql";
+	
 		var query = [
 			"prefix ns: <http://envri.eu/ns/>",
 			"prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>",
@@ -246,14 +172,14 @@
 			"}",
 		].join(" ");
 		
-		var queryUrl = url+"?query="+ encodeURIComponent(query) +"&format=json";
-			$.ajax({
-			url: queryUrl,
-			type: 'GET',
-			async: false,
+		data=fetchData(query);
+		
+		displayPrincipleData(data, demonstrator);	
+			
+	}
 	
-		success: function(data) {
-			var str = '<br/>';
+	function displayPrincipleData(data, demonstrator) {
+		var str = '<br/>';
 			str += '<p>';
 			str += '<div style="width: 100%; overflow: hidden;">';
 			str += '<div style="width: 800px; float: left;">';
@@ -299,16 +225,27 @@
 			}
 		
 			str += '</tbody></table>';
-			
-			
-		    	$('#RIgaps').append(str);
-				
+		    $('#RIgaps').append(str);
+	}
+	
+	function fetchData(query) {
+		var url = "https://envrifair1.test.fedcloud.eu/sparql";
+		var queryUrl = url+"?query="+ encodeURIComponent(query) +"&format=json";
+		var result;
+			$.ajax({
+			url: queryUrl,
+			type: 'GET',
+			async: false,
+	
+		success: function(data) {
+			result=data;
 			},
 			error: function(e)
 			{
-			   //alert("fail"+e.message);
+			   alert("fail"+e.message);
 			}
 		});
+		return result;
 	}
 </script>
 
