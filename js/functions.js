@@ -38,8 +38,6 @@ function getDemonstrators() {
 				demonstrators[temp["principle_label"].value] = demonstrator;
 			}
 			return demonstrators;
-		//principleI2(demonstrators["I2"]);
-		//principleR12(demonstrators["R1.2"]);
 	}
 	
 	function principleI2() {
