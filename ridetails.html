@@ -87,7 +87,7 @@
 	$(document).ready(function() {
 		let params = new URL(location).searchParams;
 		RI=params.get('ri');
-		$("#intro").append('Repositories of <em>'+RI+'</em> Infrastructure that do not meet the FAIR principles');
+		$("#intro").append('Repositories of <em>'+RI+'</em> that do not meet the FAIR principles');
 		fetchRepositoriesData(RI);
 	}); 
 	</script>
