@@ -34,7 +34,12 @@
     padding: 3px 7px;
     text-decoration: none;
 	text-align: right;
+	
 }
+
+.floatLeft { width: 60%; float: left; }
+.floatRight {width: 39%; float: right; }
+.container1 { overflow: hidden; }
 </style>
 
   </head>
@@ -74,8 +79,19 @@
 		
 		<!-- <h2 id="h1">Gaps in Research Infrastructure Repositories</h2> -->
 		
-		<div id="RIgaps">
+		<div class="container1">
+			<div class="floatLeft">
+			</div>
+
+			<div class="floatRight">
+			</div>
 		</div>
+		
+		<div id="RIgaps" style="width: 50%">
+		</div>
+		
+		
+		
 		</br>
 </div>
 
@@ -126,28 +142,43 @@
 	}
 	
 	function displayRepositoriesData(repoList) {
+			var temp=[];
+			var demo = '</br>';
+			demo += '<div style="float: left;">';
+			demo += '<em><h6>Demonstrators</h6></em>';
+			demo += '</div>';
+			demo += '<table class="table table-hover dataTable no-footer" id="list-demonstrators" role="grid" aria-describedby="list-of-authors_info" >';
+			demo+='<thead><tr>';
+			demo += '</tr></thead>';
+			//demo+='<tbody>';
+			
 			var str = '';
 			for (key in repoList) {
 				str='';
 				str='</br>'
-				str += '<div style="width: 800px; float: left;">';
+				str += '<div style="float: left;">';
 				str += '<em><h6>'+key+'</h6></em>';
 				str += '</div>';
-				str += '<table class="table table-hover dataTable no-footer" id="list-demonstrators" role="grid" aria-describedby="list-of-authors_info" style="width: 1110px;">';
+				str += '<table class="table table-hover dataTable no-footer" id="list-demonstrators" role="grid" aria-describedby="list-of-authors_info" >';
 				str+='<thead><tr>';
 				str += '</tr></thead>';
 				str += '<tbody>';
 				for(i=0; i<repoList[key].length; i++) {
 					str += '<tr>';
-					str += '<td width="80%"><a href='+repoList[key][i]["fair_principle"]+' target="_blank">'+repoList[key][i]['principle_label']+'</a>: '+repoList[key][i]['principle_definition']+'</td>';
-					str += '<td><a href='+repoList[key][i]["demonstrator_url"]+' target="_blank">'+repoList[key][i]['principle_label']+' Demonstrator</a> </td>';
+					str += '<td width="60%"><a href='+repoList[key][i]["fair_principle"]+' target="_blank">'+repoList[key][i]['principle_label']+'</a>: '+repoList[key][i]['principle_definition']+'</td>';
 					str += '</tr>';
-					
+					if(!temp.includes(repoList[key][i]['principle_label'])) {
+						demo += '<tr>';
+						demo+= '<td><a href='+repoList[key][i]["demonstrator_url"]+' target="_blank">'+repoList[key][i]['principle_label']+' Demonstrator</a> </td>';
+						demo+='</tr>';
+						temp.push(repoList[key][i]['principle_label']);
+				    }
 				}
 				str +='</br>';
-				$('#RIgaps').append(str);
+				$('.floatLeft').append(str);
 			}
-			
+			//demo+='</tbody>';
+			$('.floatRight').append(demo);
 	}
 </script>
 
