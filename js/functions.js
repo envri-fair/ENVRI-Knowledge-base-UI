@@ -85,7 +85,8 @@ function getDemonstrators() {
 	}
 	
 	function fetchData(query) {
-		var url = "https://envrifair1.test.fedcloud.eu/sparql";
+		//var url = "https://envrifair1.test.fedcloud.eu/sparql";
+		var url="https://envri-fair.lab.uvalight.net/sparql";
 		var queryUrl = url+"?query="+ encodeURIComponent(query) +"&format=json";
 		var result;
 			$.ajax({
