@@ -6,13 +6,14 @@ function getDemonstrators() {
 			"prefix schema: <http://schema.org/>",
 			"prefix skos: <http://www.w3.org/2004/02/skos/core#>",
 			"prefix fair: <https://w3id.org/fair/principles/terms/>",
-			"select distinct ?principle_label ?principle_definition ?fair_principle ?creator ?created ?demonstrator_url where {",
+			"select distinct ?principle_label ?principle_definition ?fair_principle ?demonstrator_label ?creator ?created ?demonstrator_url where {",
 			"?fair_principle a fair:FAIR-SubPrinciple .",
 			"?fair_principle skos:definition ?principle_definition .",
 			"?fair_principle rdfs:label ?principle_label .",
 			"?fair_principle envri:hasDemonstrator ?demonstrator .",
 			"?demonstrator a envri:TechnologyDemonstrator .",
-			"?demonstrator dcterms:creator ?creator .",
+			"?demonstrator rdfs:label ?demonstrator_label .",
+			"?demonstrator dcterms:creator ?creator .", 
 			"?demonstrator dcterms:created ?created .",
 			"?demonstrator schema:url ?demonstrator_url .",
 			"FILTER (lang(?principle_label) = 'en' && lang(?principle_definition) = 'en')",
@@ -33,10 +34,20 @@ function getDemonstrators() {
 				demonstrator["fair_principle"] = temp["fair_principle"].value;
 				demonstrator["principle_label"] = temp["principle_label"].value;
 				demonstrator["principle_definition"] = temp["principle_definition"].value;
+				demonstrator["demonstrator_label"] = temp["demonstrator_label"].value;
 				demonstrator["demonstrator_url"] = temp["demonstrator_url"].value;
 				demonstrator["creator"] = temp["creator"].value;
-				demonstrators[temp["principle_label"].value] = demonstrator;
+
+				if (demonstrators[temp["principle_label"].value]) {
+				  principle_demonstrators = demonstrators[temp["principle_label"].value];
+				} else {
+	   			  principle_demonstrators = [];
+	   			  demonstrators[temp["principle_label"].value] = principle_demonstrators;
+	   			}
+
+				principle_demonstrators.push(demonstrator);
 			}
+
 			return demonstrators;
 	}
 	
@@ -86,7 +97,7 @@ function getDemonstrators() {
 	
 	function fetchData(query) {
 		//var url = "https://envrifair1.test.fedcloud.eu/sparql";
-		var url="https://envri-fair.lab.uvalight.net/sparql";
+		var url="http://envri-fair.lab.uvalight.net/sparql";
 		var queryUrl = url+"?query="+ encodeURIComponent(query) +"&format=json";
 		var result;
 			$.ajax({

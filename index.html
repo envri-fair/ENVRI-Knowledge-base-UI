@@ -96,34 +96,37 @@
 		//principleR12(demonstrators["R1.2"]);
 		
 		I2data=principleI2();
-		displayPrincipleData(data, demonstrators["I2"]);
+		displayPrincipleData(I2data, demonstrators["I2"]);
 		
 		R12data=principleR12();
-		displayPrincipleData(data, demonstrators["R1.2"]);
+		displayPrincipleData(R12data, demonstrators["R1.2"]);
 		
 	});
 	</script>
 	
 <script>
 
-	function displayPrincipleData(data, demonstrator) {
-		var str = '<br/>';
-			str += '<p>';
-			str += '<div style="width: 100%; overflow: hidden;">';
-			str += '<div style="width: 800px; float: left;">';
+	function displayPrincipleData(data, demonstrators) {
+	   	demonstrator = demonstrators[0];
+	   	
+		var str = '<div>';
 	 		str += '<h3><a href='+demonstrator["fair_principle"]+' target="_blank">'+demonstrator["principle_label"]+'</a>: '+demonstrator["principle_definition"]+'</h3>';
-			str += '</div>';
-			str += '<div style="padding-top: 10px; text-align: right;">'
-			str += '<a href='+demonstrator["demonstrator_url"]+' target="_blank" class="button">'+"Demonstrator"+'</a>'
-			str += '</div>';
-			str += '</div>';
-			str += '</p>';
-
-			str += '<table class="table table-hover dataTable no-footer" id="list-demonstrators" role="grid" aria-describedby="list-of-authors_info" style="width: 1110px;">';
-			str+='<thead><tr>';
-			str += '<th> Infrastructure </th>';
-			str += '<th> Repositories </th>';
+	 		str += '<br/>';
 			
+			if (demonstrators.length == 1) {
+				str += '<a href='+demonstrator["demonstrator_url"]+' target="_blank" class="button">'+demonstrator["demonstrator_label"]+'</a>';
+			} else {
+				for (i=0; i<demonstrators.length; i++) {
+					demonstrator = demonstrators[i];
+					str += '<a href='+demonstrator["demonstrator_url"]+' target="_blank" class="button">'+demonstrator["demonstrator_label"]+'</a>&nbsp;';
+				}
+			}
+
+			str += '<p>&nbsp;</p>';
+			str += '<table class="table table-hover dataTable no-footer" id="list-demonstrators" role="grid" aria-describedby="list-of-authors_info">';
+			str += '<thead><tr>';
+			str += '<th> Infrastructure </th>';
+			str += '<th> Repositories </th>';		
 			str += '</tr></thead>';
 		
 			var tabledata = data["results"].bindings;
@@ -147,12 +150,16 @@
 			str += '<tbody>';
 			for(i=0; i<infList.length; i++) {
 				str += '<tr>';
-				str += '<td><a style="color: black;" href="ridetails.html?ri='+infList[i]+'" target="_blank"><u>'+infList[i]+'</u></a></td>';
+				str += '<td>';
+				// <a style="color: black;" href="ridetails.html?ri='+infList[i]+'" target="_blank">
+				str += infList[i];
+				// </a>
+				str += '</td>';
 				str += '<td>'+repoList[i]+'</td>';
 				str += '</tr>';
 			}
 		
-			str += '</tbody></table>';
+			str += '</tbody></table></div><p>&nbsp;</p>';
 		    $('#RIgaps').append(str);
 	}
 </script>
