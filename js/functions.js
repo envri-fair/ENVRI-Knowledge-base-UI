@@ -57,7 +57,7 @@ function getDemonstrators() {
 			"prefix ns: <http://envri.eu/ns/>",
 			"prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>",
 			"prefix skos: <http://www.w3.org/2004/02/skos/core#>",
-			"select ?infrastructure ?repository",
+			"select ?infrastructure ?repository ?value",
 			"where {",
 			"[] a ns:FAIRAssessment ;",
 			"ns:infrastructure [ skos:prefLabel ?infrastructure ] ;",
@@ -65,7 +65,7 @@ function getDemonstrators() {
 			"rdfs:label ?repository ;",
 			"ns:hasMetadata [ ns:categoriesAreDefinedInRegistries ?value ]",
 			"] .",
-			"FILTER (?value = ns:planned || ?value = 'false'^^xsd:bool) }",
+			"FILTER (?value = ns:planned || ?value = 'false'^^xsd:bool || ?value='true'^^xsd:bool) }",
 		].join(" ");
 		
 		data=fetchData(query);
@@ -79,14 +79,15 @@ function getDemonstrators() {
 			"prefix ns: <http://envri.eu/ns/>",
 			"prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>",
 			"prefix skos: <http://www.w3.org/2004/02/skos/core#>",
-			"select ?infrastructure ?repository",
+			"select ?infrastructure ?repository ?value",
 			"where {",
 			"[] a ns:FAIRAssessment ;",
 			"ns:infrastructure [ skos:prefLabel ?infrastructure ] ;",
 			"ns:hasRepository [", 
 			"rdfs:label ?repository ;",
-			"ns:hasMetadata [ ns:hasMachineReadableProvenance 'false'^^xsd:bool ]",
+			"ns:hasMetadata [ ns:hasMachineReadableProvenance ?value ]",
 			"] .",
+			"FILTER (?value = 'false'^^xsd:bool || ?value='true'^^xsd:bool)",
 			"}",
 		].join(" ");
 		

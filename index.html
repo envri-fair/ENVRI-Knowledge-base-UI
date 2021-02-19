@@ -53,7 +53,7 @@
     
 	<h1 id="h1">FAIR Gap Analysis</h1>
 </br>
-	<div id="intro">Research Infrastructures and their repositories that do <em>not</em> meet the FAIR principles.</div>
+	<!--<div id="intro">Research Infrastructures and their repositories that do <em>not</em> meet the FAIR principles.</div>-->
 
 		<div id="list-of-authors_wrapper" class="dataTables_wrapper no-footer">
 			<div class="dataTables_length" id="list-of-authors_length">
@@ -139,11 +139,19 @@
 				
 				if(infList.indexOf(temp["infrastructure"].value)<0) {
 					infList[count] = temp["infrastructure"].value;
-					repoList[count] = temp["repository"].value;
+					//repoList[count] = temp["repository"].value;
+					if(temp["value"].value=="true")
+						repoList[count] = '<span style="color: green">'+temp["repository"].value+'</span>';
+					else
+						repoList[count] = '<span style="color: red">'+temp["repository"].value+'</span>';
 					count++;
 				}
 				else {
-					repoList[infList.indexOf(temp["infrastructure"].value)] += "; "+temp["repository"].value;
+					if(temp["value"].value=="true") {
+						repoList[infList.indexOf(temp["infrastructure"].value)] += "; "+'<span style="color: green">'+temp["repository"].value+'</span>';
+					}
+					else
+						repoList[infList.indexOf(temp["infrastructure"].value)] += "; "+'<span style="color: red">'+temp["repository"].value+'</span>';
 				}
 			}
 			
