@@ -48,6 +48,7 @@ function getDemonstrators() {
 				principle_demonstrators.push(demonstrator);
 			}
 
+			alert(demonstrators);
 			return demonstrators;
 	}
 	
