@@ -51,6 +51,28 @@ function getDemonstrators() {
 			return demonstrators;
 	}
 	
+	function principleI1() {
+		
+		var query = [
+			"prefix ns: <http://envri.eu/ns/>",
+			"prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>",
+			"prefix skos: <http://www.w3.org/2004/02/skos/core#>",
+			"select ?infrastructure ?repository ?value",
+			"where {",
+			"[] a ns:FAIRAssessment ;",
+			"ns:infrastructure [ skos:prefLabel ?infrastructure ] ;",
+			"ns:hasRepository [",
+			"rdfs:label ?repository ;",
+			"ns:hasMetadata [ ns:isMachineActionable ?value ]",
+			"] .",
+			"FILTER (?value = ns:planned || ?value = 'false'^^xsd:bool || ?value='true'^^xsd:bool) }",
+			"}"
+		].join(" ");
+		
+		data=fetchData(query);
+		return data;
+	}
+
 	function principleI2() {
 	
 		var query = [
