@@ -48,7 +48,7 @@ function getDemonstrators() {
 				principle_demonstrators.push(demonstrator);
 			}
 
-			alert(demonstrators);
+			alert(JSON.stringify(demonstrators));
 			return demonstrators;
 	}
 	
