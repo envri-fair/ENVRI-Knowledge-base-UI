@@ -65,12 +65,11 @@ function getDemonstrators() {
 			"rdfs:label ?repository ;",
 			"ns:hasMetadata [ ns:isMachineActionable ?value ]",
 			"] .",
-			"FILTER (?value = ns:planned || ?value = 'false'^^xsd:bool || ?value='true'^^xsd:bool) }",
+			"FILTER (?value = ns:planned || ?value = 'false'^^xsd:bool || ?value='true'^^xsd:bool)",
 			"}"
 		].join(" ");
 		
 		data=fetchData(query);
-		alert(data);
 		return data;
 	}
 
