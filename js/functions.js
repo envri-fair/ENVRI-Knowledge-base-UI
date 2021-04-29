@@ -48,7 +48,6 @@ function getDemonstrators() {
 				principle_demonstrators.push(demonstrator);
 			}
 
-			alert(JSON.stringify(demonstrators));
 			return demonstrators;
 	}
 	
@@ -71,6 +70,7 @@ function getDemonstrators() {
 		].join(" ");
 		
 		data=fetchData(query);
+		alert(data);
 		return data;
 	}
 
