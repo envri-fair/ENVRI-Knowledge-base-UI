@@ -144,17 +144,17 @@
 					infList[count] = temp["infrastructure"].value;
 					//repoList[count] = temp["repository"].value;
 					if(temp["value"].value=="true")
-						repoList[count] = '<span style="color: green">'+temp["repository"].value+'</span>';
+						repoList[count] = '<span>'+temp["repository"].value+' &#10004;</span>';
 					else
-						repoList[count] = '<span style="color: red">'+temp["repository"].value+'</span>';
+						repoList[count] = '<span>'+temp["repository"].value+' &#10008;</span>';
 					count++;
 				}
 				else {
 					if(temp["value"].value=="true") {
-						repoList[infList.indexOf(temp["infrastructure"].value)] += "; "+'<span style="color: green">'+temp["repository"].value+'</span>';
+						repoList[infList.indexOf(temp["infrastructure"].value)] += "; "+'<span>'+temp["repository"].value+' &#10004;</span>';
 					}
 					else
-						repoList[infList.indexOf(temp["infrastructure"].value)] += "; "+'<span style="color: red">'+temp["repository"].value+'</span>';
+						repoList[infList.indexOf(temp["infrastructure"].value)] += "; "+'<span>'+temp["repository"].value+' &#10008;</span>';
 				}
 			}
 			
